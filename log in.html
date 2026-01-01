@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>POTSIFLIX Login</title>
+
+<style>
+    body{
+        margin:0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(#000, #2b2222);
+        color:#fff;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .logo{
+        margin-top:70px;
+        text-align:center;
+    }
+    .logo h1{
+        color:#e50914;
+        font-size:56px;
+        margin:0;
+        font-weight:900;
+    }
+    .logo p{
+        margin-top:6px;
+        color:#d6d6d6;
+    }
+
+    .card{
+        margin-top:60px;
+        width:90%;
+        max-width:420px;
+    }
+
+    h2{
+        text-align:center;
+        margin-bottom:25px;
+    }
+
+    input{
+        width:100%;
+        padding:14px 16px;
+        border-radius:30px;
+        border:2px solid #ddd;
+        outline:none;
+        font-size:16px;
+        margin-bottom:18px;
+        background:#000;
+        color:#fff;
+    }
+
+    button{
+        width:100%;
+        padding:14px;
+        border-radius:30px;
+        border:none;
+        background:#e50914;
+        color:#fff;
+        font-size:18px;
+        font-weight:700;
+        cursor:pointer;
+    }
+
+    .error{
+        text-align:center;
+        margin-top:12px;
+        color:#ff3b3b;
+        font-weight:600;
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="logo">
+    <h1>POTSIFLIX</h1>
+    <p>A Premium Short Movie Streaming</p>
+</div>
+
+<div class="card">
+    <h2>Login</h2>
+
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+
+    <button onclick="login()">Next</button>
+
+    <div id="error" class="error">Password salah</div>
+</div>
+
+<script>
+    function login() {
+        // Ganti sesuai kebutuhanmu
+        const correctUsername = "admin";
+        const correctPassword = "12345";
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMsg = document.getElementById("error");
+
+        if (username === correctUsername && password === correctPassword) {
+            // GANTI dengan link websitemu
+            window.location.href = "https://example.com";
+        } else {
+            errorMsg.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

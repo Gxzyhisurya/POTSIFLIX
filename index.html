@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POTSIFLIX Login</title>
+  <!-- Import Bebas font dari Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset dan gaya dasar */
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: black;
+      font-family: 'Bebas Neue', cursive;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .container {
+      width: 300px;
+    }
+
+    .logo {
+      font-size: 72px;
+      font-weight: 700;
+      color: red;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+
+    .subtitle {
+      font-family: Arial, sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .login-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 2px solid white;
+      border-radius: 12px;
+      background: transparent;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 18px;
+      color: white;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    input::placeholder {
+      color: white;
+      opacity: 0.7;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: red;
+    }
+
+    .btn-next {
+      margin-top: 20px;
+      background-color: red;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 0;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .btn-next:hover {
+      background-color: #cc0000;
+    }
+
+    .error-msg {
+      color: red;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin-top: 10px;
+      height: 18px; /* agar ketika error muncul area tidak melompat */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">POTSIFLIX</div>
+    <div class="subtitle">A Premium Short Movie Streaming</div>
+    <div class="login-title">Login</div>
+    <form id="loginForm" autocomplete="off">
+      <input type="text" id="username" name="username" placeholder="Username" required />
+      <input type="password" id="password" name="password" placeholder="Password" required />
+      <button type="submit" class="btn-next">Next</button>
+      <div id="errorMsg" class="error-msg"></div>
+    </form>
+  </div>
+
+  <script>
+    // Ganti nilai username dan password valid sesuai kebutuhan Anda
+    const validUsername = "USERPOSTIFLIX";
+    const validPassword = "AKUNPOSTIFLIX25";
+    const redirectUrl = "Potsiflix.html"; // Ganti dengan link website tujuan
+
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const username = form.username.value.trim();
+      const password = form.password.value;
+
+      if (username === validUsername && password === validPassword) {
+        errorMsg.textContent = "";
+        window.location.href = redirectUrl;
+      } else {
+        errorMsg.textContent = "Password salah";
+      }
+    });
+  </script>
+</body>
+</html>

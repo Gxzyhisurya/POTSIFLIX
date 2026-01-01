@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POTSIFLIX</title>
+
+  <!-- Import Bebas Neue font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #141414;
+      color: white;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Header */
+    header {
+      background-color: #141414;
+      padding: 20px 20px 10px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      user-select: none;
+    }
+    .logo {
+      color: #e50914; /* Netflix red */
+      font-weight: 900;
+      font-size: 4em;
+      letter-spacing: 3px;
+      font-family: 'Bebas Neue', cursive;
+      margin-bottom: 15px;
+    }
+
+    /* Search container */
+    .search-container {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .search-container input[type="text"] {
+      flex-grow: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1em;
+      outline: none;
+    }
+
+    .search-container button {
+      background: #e50914;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      font-size: 1em;
+      transition: background 0.2s ease;
+    }
+    .search-container button:hover {
+      background: #b1060f;
+    }
+
+    /* Back Button */
+    .back-button-container {
+      display: none; /* Hidden by default */
+      text-align: center;
+      margin: 20px 0;
+      margin-bottom: 80px;/* Adds extra space below the button */
+    }
+    .back-button {
+      background: #e50914;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .back-button:hover {
+      background: #b1060f;
+    }
+
+    /* Sections */
+    section {
+      margin: 30px 20px 40px 20px;
+    }
+    h2 {
+      margin-bottom: 10px;
+      font-size: 1,1em;
+    }
+
+    /* Movie grid */
+    .movie-row {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .movie-row::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+
+    /* Movie Item */
+    .movie-item {
+      flex: 0 0 auto;
+      width: 135px; /* 3:4 ratio */
+      aspect-ratio: 3 / 4;
+      margin-right: 10px;
+      cursor: pointer;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      box-shadow: 0 0 3px #000;
+      display: block;
+      color: white;
+      text-decoration: none;
+    }
+    .movie-item:hover {
+      transform: scale(1.15);
+      z-index: 10;
+      box-shadow: 0 0 12px #e50914;
+    }
+    .movie-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+    }
+    .movie-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background-color: #e50914;
+      padding: 2px 6px;
+      font-size: 0.75em;
+      font-weight: bold;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Episode Page */
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .episode-item {
+      display: flex;
+      align-items: center;
+      background-color: #222;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 0 5px #000;
+      transition: transform 0.2s ease;
+    }
+    .episode-item:hover {
+      transform: scale(1.02);
+    }
+
+    .episode-thumbnail {
+      width: 160px; /* 16:9 aspect ratio */
+      height: 90px;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    .episode-info {
+      flex-grow: 1;
+    }
+
+    .episode-title {
+      font-family: Arial, sans-serif; /* Sans Serif font */
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .play-button {
+      background: #e50914;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      font-size: 0.9em;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .play-button:hover {
+      background: #b1060f;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+    <header></header>
+  <div class="logo">POTSIFLIX</div>
+  <form id="searchForm" class="search-container" onsubmit="return false;">
+    <input type="text" id="searchInput" placeholder="Search movies..." aria-label="Search movies" />
+    <button type="submit" id="searchButton">Search</button>
+  </form>
+</header>
+
+<div id="mainContent">
+  <main>
+
+    <section data-category="Popular">
+      <h2>Popular Today</h2>
+      <div class="movie-row">
+        <a href="Leuweungfull.html" class="movie-item" data-title="Leuweung setan" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Leuweungku.jpg" alt="Leuweung setan" />
+        </a>
+        <div class="movie-item" data-title="Searching: first case" data-type="series" data-episodes='[
+          {"title":"S01E01 • CONNECTION","thumbnail":"Connectku.jpg","url":"Search 1full.html"},
+          {"title":"S01E02 • Segera Hadir","thumbnail":"Parasocialku.jpg","url":"soonrek.html"},
+          {"title":"S01E03 • Segera Hadir","thumbnail":"Oldmemoku.jpg","url":"soonrek.html"},
+          {"title":"S01E04 • Segera Hadir","thumbnail":"Whoku.jpg","url":"soonrek.html"}
+        ]'>
+          <img src="Searchingku.jpg" alt="Searching: first case" />
+          <div class="movie-label">Series</div>
+        </div>
+        <a href="Merasukfilm.html" class="movie-item" data-title="Merasuk: first possession" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Merasukku.jpg" alt="Merasuk: first possession" />
+        </a>
+        <div class="movie-item" data-title="Penunggu dari kematian" data-type="series" data-episodes='[
+          {"title":"S01E01 • LEUWEUNG SETAN","thumbnail":"Setanku.jpg","url":"Leuweungfull.html"},
+          {"title":"S01E02 • PENUNGGU KOTAK TUA","thumbnail":"Kotakku.jpg","url":"Ketukketuk.html"},
+          {"title":"S01E03 • Segera Hadir","thumbnail":"Segeraku.jpg","url":"soonrek.html"},
+          {"title":"S01E04 • Segera Hadir","thumbnail":"Segeraku.jpg","url":"soonrek.html"}
+        ]'>
+          <img src="Penunggudariku.jpg" alt="Penunggu dari kematian" />
+          <div class="movie-label">Series</div>
+        </div>
+      </div>
+    </section>
+
+    <section data-category="Trending Now">
+      <h2>Trending Now</h2>
+      <div class="movie-row">
+        <a href="soonrek.html" class="movie-item" data-title="Gagabah: ucap laku lampah" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Gagabahku.jpg" alt="Gagabah: ucap laku lampah" />
+        </a>
+        <a href="soonrek.html" class="movie-item" data-title="Cemeng Wengi: Leuweung setan the prequel" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Cemengku.jpg" alt="Cemeng Wengi: Leuweung setan the prequel" />
+        </a>
+        <a href="soonrek.html" class="movie-item" data-title="Tertipu Muslihat" target="_blank" rel=noopener noreferrer" data-type="movie"> <img src="Tertipuku.jpg" alt="Tertipu muslihat" />
+        </a>
+        <a href="ningcomku.html" class="movie-item" data-title="Kembalinya ningrum" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Ningcomku.jpg" alt="Kembalinya ningrum" />
+        </a>
+           <a href="diaterpanggilfull.html" class="movie-item" data-title="Dia terpanggil" target="_blank" rel="noopener noreferrer" data-type="movie">
+          <img src="Diaku.jpg" alt="Dia terpanggil" />
+        </a>
+      </div>
+    </section>
+
+    <!-- More sections can be added similarly -->
+
+    <!-- Back Button Container on Main Page -->
+    <div class="back-button-container" id="mainBackContainer">
+      <button class="back-button" id="mainBackButton">Back</button>
+    </div>
+
+  </main>
+</div>
+
+<div id="episodePage">
+  <div class="episodes-grid" id="episodesGrid">
+    <!-- Episodes will be populated here -->
+  </div>
+  <!-- Back Button Container on Episode Page -->
+  <div class="back-button-container" id="episodeBackContainer">
+    <button class="back-button" id="episodeBackButton">Back</button>
+  </div>
+</div>
+
+<script>
+  // Search functionality
+  const searchButton = document.getElementById('searchButton');
+  const searchInput = document.getElementById('searchInput');
+  const mainBackContainer = document.getElementById('mainBackContainer');
+  const mainBackButton = document.getElementById('mainBackButton');
+  const allMovieItems = document.querySelectorAll('.movie-item');
+  const allSections = document.querySelectorAll('section');
+
+  function searchMovies() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    if (!query) {
+      allMovieItems.forEach(item => item.style.display = '');
+      allSections.forEach(section => section.style.display = '');
+      mainBackContainer.style.display = 'none';
+      return;
+    }
+
+    let hasResults = false;
+    allSections.forEach(section => {
+      let sectionHasMatch = false;
+      const items = section.querySelectorAll('.movie-item');
+      items.forEach(item => {
+        const title = item.getAttribute('data-title').toLowerCase();
+        if (title.includes(query)) {
+          item.style.display = '';
+          sectionHasMatch = true;
+          hasResults = true;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      section.style.display = sectionHasMatch ? '' : 'none';
+    });
+
+    // Show or hide the back button based on results
+    mainBackContainer.style.display = hasResults ? 'block' : 'none';
+  }
+
+  function resetSearch() {
+    searchInput.value = '';
+    allMovieItems.forEach(item => item.style.display = '');
+    allSections.forEach(section => section.style.display = '');
+    mainBackContainer.style.display = 'none';
+  }
+
+  searchButton.addEventListener('click', searchMovies);
+  searchInput.addEventListener('keyup', e => {
+    if (e.key === 'Enter') searchMovies();
+  });
+  mainBackButton.addEventListener('click', resetSearch);
+
+  // Series episode page functionality
+  const mainContent = document.getElementById('mainContent');
+  const episodePage = document.getElementById('episodePage');
+  const episodesGrid = document.getElementById('episodesGrid');
+  const episodeBackContainer = document.getElementById('episodeBackContainer');
+  const episodeBackButton = document.getElementById('episodeBackButton');
+
+  function showEpisodePage(seriesTitle, episodes) {
+    episodesGrid.innerHTML = '';
+
+    episodes.forEach(ep => {
+      const episodeDiv = document.createElement('div');
+      episodeDiv.className = 'episode-item';
+      episodeDiv.innerHTML = `
+        <img src="${ep.thumbnail}" alt="${ep.title}" class="episode-thumbnail" />
+        <div class="episode-info">
+          <div class="episode-title">${ep.title}</div>
+          <button class="play-button" data-url="${ep.url}">Play</button>
+        </div>
+      `;
+      episodesGrid.appendChild(episodeDiv);
+    });
+
+    mainContent.style.display = 'none';
+    episodePage.style.display = 'block';
+    episodeBackContainer.style.display = 'block';
+    mainBackContainer.style.display = 'none'; // Hide main back button when on episode page
+  }
+
+  function hideEpisodePage() {
+    episodePage.style.display = 'none';
+    mainContent.style.display = 'block';
+    episodeBackContainer.style.display = 'none';
+    // If search is active, show the main back button
+    if (searchInput.value.trim()) {
+      mainBackContainer.style.display = 'block';
+    }
+  }
+
+  episodeBackButton.addEventListener('click', hideEpisodePage);
+
+  // Handle clicks on movie/series items
+  document.querySelectorAll('.movie-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = item.getAttribute('data-type');
+      if (type === 'series') {
+        const seriesTitle = item.getAttribute('data-title');
+        const episodesJSON = item.getAttribute('data-episodes');
+        let episodes = [];
+        try {
+          episodes = JSON.parse(episodesJSON);
+        } catch (error) {
+          console.error('Invalid episodes JSON', error);
+          alert('Episodes information is unavailable.');
+          return;
+        }
+        showEpisodePage(seriesTitle, episodes);
+      } else if (type === 'movie') {
+        const url = item.getAttribute('href');
+        if (url) {
+          window.open(url, '_blank');
+        }
+      }
+    });
+  });
+
+  // Handle play button clicks on episode page
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('play-button')) {
+      const url = e.target.getAttribute('data-url');
+      if (url) {
+        window.open(url, '_blank');
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
